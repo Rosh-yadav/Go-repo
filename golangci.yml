@@ -1,0 +1,10 @@
+run:
+  enable-all: true
+  exclude-use-default: true
+  linters:
+    enable:
+      - deadcode
+      - errcheck
+      - gofmt
+      - gosec
+      - golint
