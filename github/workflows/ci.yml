@@ -1,0 +1,37 @@
+name: Go CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop     # Add more branches as needed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Go environment
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.x' # specify the Go version you want to use
+          
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          go mod tidy
+
+      - name: Run golangci-lint
+        run: |
+          go install github.com/golangci/golangci-lint/cmd/golangci-lint
+          golangci-lint run
+
+      - name: Run unit tests
+        run: |
+          go test ./...
+
+      # Ensure workflow fails if any step encounters errors
+      - name: Fail on error
+        run: exit 1
